@@ -1,0 +1,368 @@
+<style>
+  .pg { display: flex; flex-direction: column; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); max-width: 72rem; margin-inline: auto; }
+  .pg h1 { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.15; text-wrap: balance; }
+  .pg .lead { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); line-height: 1.5; max-width: 46rem; }
+  .pg .lead b { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .pg b { font-variant-numeric: tabular-nums; }
+  .pg .tiles { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); }
+  .pg .tile, .pg .card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+  .pg .tile { display: flex; flex-direction: column; gap: var(--cds-gap-xs); min-height: 7.25rem; }
+  .pg .tile .k { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .pg .tile .v { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .pg .tile .v .of { color: var(--color-fg-muted); font-size: var(--cds-font-size-heading); }
+  .pg .tile .n { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-top: auto; }
+  .pg .card h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+  .pg .card .note { margin: var(--cds-gap-xs) 0 var(--cds-pad-md); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.45; }
+  .pg .grid2 { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+  .pg .box { overflow: auto; max-width: 100%; max-height: 24rem; border-top: 1px solid var(--color-border-line); }
+  .pg table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .pg th { position: sticky; top: 0; background: var(--color-panel); text-align: left; color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); white-space: nowrap; padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid var(--color-border-line); }
+  .pg td { padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid var(--color-border-line); vertical-align: top; line-height: 1.4; }
+  .pg td:first-child { white-space: nowrap; }
+  .pg .sprints { min-height: 12rem; }
+  .pg .legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-bottom: var(--cds-pad-md); }
+  .pg .legend i { display: inline-block; width: 0.75rem; height: 0.75rem; border-radius: 3px; margin-right: 0.35rem; vertical-align: -1px; }
+  .pg .foot { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.6; overflow-wrap: anywhere; }
+  .pg [data-dash-source-state=empty] { color: transparent; }
+  .pg [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  .pg .fail { display: flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 4rem; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+  .pg .fail::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-bad); }
+  .pg .chart-note { text-wrap: balance; }
+</style>
+
+<div class="pg">
+  <header>
+    <h1 id="top">Tiến độ Nam Bắc</h1>
+    <p class="lead">
+      Đang ở <b class="dash-skeleton" data-source="current_sprint" data-field="label" data-row="0">—</b>,
+      <span data-source="current_sprint" data-field="name" data-row="0">—</span>.
+      <b data-source="kpi" data-field="value" data-where="id=tasks_done">—</b> trên
+      <b data-source="kpi" data-field="value" data-where="id=tasks_total">—</b> task đã xong,
+      <b data-source="kpi" data-field="value" data-where="id=tasks_partial">—</b> đang làm.
+      CI: <b data-source="kpi" data-field="value" data-where="id=jobs_green">—</b>/<b data-source="kpi" data-field="value" data-where="id=jobs_total">—</b> job xanh.
+      Test: <b data-source="kpi" data-field="value" data-where="id=tests_passed">—</b>/<b data-source="kpi" data-field="value" data-where="id=tests_total">—</b> pass.
+    </p>
+  </header>
+
+  <section class="tiles" aria-label="Số liệu chính" id="tong-quan">
+    <div class="tile">
+      <div class="k">Task đã xong</div>
+      <div class="v"><b class="dash-skeleton" data-source="kpi" data-field="value" data-where="id=tasks_done">—</b><span class="of"> / <b data-source="kpi" data-field="value" data-where="id=tasks_total">—</b></span></div>
+      <div class="n">Theo 01_ROADMAP.md; đang làm dở tính riêng.</div>
+    </div>
+    <div class="tile">
+      <div class="k">Giờ công đã xong</div>
+      <div class="v"><b class="dash-skeleton" data-source="kpi" data-field="value" data-where="id=hours_share">—</b></div>
+      <div class="n"><b data-source="kpi" data-field="value" data-where="id=hours_done">—</b> trên <b data-source="kpi" data-field="value" data-where="id=hours_total">—</b> giờ ước lượng</div>
+    </div>
+    <div class="tile">
+      <div class="k">Test đang pass</div>
+      <div class="v"><b class="dash-skeleton" data-source="kpi" data-field="value" data-where="id=tests_passed">—</b><span class="of"> / <b data-source="kpi" data-field="value" data-where="id=tests_total">—</b></span></div>
+      <div class="n">GdUnit4 và pytest, chạy lại hôm nay.</div>
+    </div>
+    <div class="tile">
+      <div class="k">Job CI xanh</div>
+      <div class="v"><b class="dash-skeleton" data-source="kpi" data-field="value" data-where="id=jobs_green">—</b><span class="of"> / <b data-source="kpi" data-field="value" data-where="id=jobs_total">—</b></span></div>
+      <div class="n"><b data-source="kpi" data-field="value" data-where="id=prs_open">—</b> PR đang mở</div>
+    </div>
+  </section>
+
+  <section class="grid2">
+    <div class="card" id="sprint-hien-tai">
+      <h2>Sprint hiện tại</h2>
+      <p class="note"><span data-source="current_sprint" data-field="name" data-row="0">—</span>. Kế hoạch
+        <span data-source="current_sprint" data-field="start" data-row="0">—</span> đến
+        <span data-source="current_sprint" data-field="end" data-row="0">—</span>.</p>
+      <div class="box">
+        <table data-source="current_tasks" data-row-key="id">
+          <thead><tr><th data-field="id">Task</th><th data-field="title">Việc</th><th data-field="status">Trạng thái</th><th data-field="landed">Ở đâu</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card" id="sprint-ke-tiep">
+      <h2>Sprint kế tiếp</h2>
+      <p class="note"><span data-source="next_sprint" data-field="name" data-row="0">—</span>. Chưa bắt đầu;
+        <b data-source="next_sprint" data-field="total" data-row="0">—</b> task,
+        <b data-source="next_sprint" data-field="hours" data-row="0">—</b> giờ ước lượng.</p>
+      <div class="box">
+        <table data-source="next_tasks" data-row-key="id">
+          <thead><tr><th data-field="id">Task</th><th data-field="title">Việc</th><th data-field="hours">Giờ</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="tat-ca-sprint">
+    <h2>Toàn bộ các sprint</h2>
+    <p class="note chart-note">Mỗi thanh là số task của sprint: xanh là đã xong, vàng là đang làm dở. Ngày tháng là lịch kế hoạch trong roadmap.</p>
+    <div class="legend"><span><i id="lg-done"></i>Đã xong</span><span><i id="lg-partial"></i>Đang làm</span><span><i style="background: var(--cds-chart-muted)"></i>Chưa làm</span></div>
+    <div class="sprints" data-source="sprint_progress"></div>
+  </section>
+
+  <section class="card" id="viec-da-lam">
+    <h2>Việc đã và đang làm</h2>
+    <p class="note">Bằng chứng là commit, test hoặc kết quả CI. Tại thời điểm chụp, các thay đổi này nằm trong PR nháp, chưa vào nhánh main.</p>
+    <div class="box">
+      <table data-source="active_tasks" data-row-key="id">
+        <thead><tr><th data-field="id">Task</th><th data-field="title">Việc</th><th data-field="status">Trạng thái</th><th data-field="landed">Ở đâu</th><th data-field="evidence">Bằng chứng</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid2" id="pr-ci">
+    <div class="card">
+      <h2>Pull request</h2>
+      <p class="note">PR sau nhắm vào nhánh của PR trước, nên chỉ hiện phần thay đổi của sprint đó.</p>
+      <div class="box">
+        <table data-source="prs" data-row-key="number">
+          <thead><tr><th data-field="number">PR</th><th data-field="state">Trạng thái</th><th data-field="base">Nhánh đích</th><th data-field="checks_passed">Job xanh</th><th data-field="checks_total">Tổng job</th><th data-field="title">Tiêu đề</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Kết quả CI</h2>
+      <p class="note">Ở commit mới nhất của mỗi PR. Thời gian là thời gian chạy của job.</p>
+      <div class="box">
+        <table data-source="checks" data-row-key="pr,job">
+          <thead><tr><th data-field="pr">PR</th><th data-field="job">Job</th><th data-field="result">Kết quả</th><th data-field="duration">Thời gian</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="test">
+    <h2>Kết quả test</h2>
+    <p class="note">Chạy bằng Godot <span data-source="snapshot" data-field="godot" data-row="0">—</span>. Hiệu năng đo trên laptop Intel Iris Xe:
+      <b data-source="snapshot" data-field="perf_units" data-row="0">—</b> quân đi theo flow field tốn
+      <b data-source="snapshot" data-field="perf_ms_per_tick" data-row="0">—</b> ms mỗi tick, mục tiêu dưới
+      <b data-source="snapshot" data-field="perf_target_ms" data-row="0">—</b> ms.</p>
+    <div class="box">
+      <table data-source="tests" data-row-key="suite">
+        <thead><tr><th data-field="suite">Bộ test</th><th data-field="kind">Loại</th><th data-field="passed">Pass</th><th data-field="failed">Lỗi</th><th data-field="total">Tổng</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="commit">
+    <h2>Commit trên nhánh làm việc</h2>
+    <p class="note">Mới nhất ở trên. Mã task trong ngoặc của commit là task chính của commit đó.</p>
+    <div class="box">
+      <table data-source="commits" data-row-key="sha">
+        <thead><tr><th data-field="sha">Mã</th><th data-field="date">Ngày</th><th data-field="task">Task</th><th data-field="subject">Nội dung</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="foot">
+    Ảnh chụp lúc <span data-source="snapshot" data-field="generated" data-row="0">—</span> từ repo
+    <span data-source="snapshot" data-field="repo" data-row="0">—</span>, nhánh
+    <span data-source="snapshot" data-field="branch" data-row="0">—</span>, commit
+    <span data-source="snapshot" data-field="head" data-row="0">—</span>.
+    Dữ liệu là bản chụp, không tự cập nhật: muốn làm mới, nhờ Claude chạy lại.
+  </p>
+</div>
+
+<script>
+  // ---- số liệu tổng hợp ----
+  dash.calc('kpi', {
+    inputs: ['tasks', 'tests', 'checks', 'prs'],
+    title: 'Số liệu tổng hợp',
+    description: 'Đếm task, cộng giờ công, đếm test và job CI.',
+    fn: (tasks, tests, checks, prs) => {
+      const sum = (xs, f) => xs.reduce((a, x) => a + f(x), 0);
+      const done = tasks.filter((t) => t.state === 'done');
+      const hoursTotal = sum(tasks, (t) => t.hours);
+      const hoursDone = sum(done, (t) => t.hours);
+      return [
+        { id: 'tasks_done', value: done.length },
+        { id: 'tasks_partial', value: tasks.filter((t) => t.state === 'partial').length },
+        { id: 'tasks_total', value: tasks.length },
+        { id: 'hours_done', value: hoursDone },
+        { id: 'hours_total', value: hoursTotal },
+        { id: 'hours_share', value: hoursTotal ? hoursDone / hoursTotal : 0 },
+        { id: 'tests_passed', value: sum(tests, (t) => t.passed) },
+        { id: 'tests_total', value: sum(tests, (t) => t.total) },
+        { id: 'jobs_green', value: checks.filter((c) => c.result === 'Xanh').length },
+        { id: 'jobs_total', value: checks.length },
+        { id: 'prs_open', value: prs.filter((p) => p.state !== 'Merged' && p.state !== 'Closed').length },
+      ];
+    },
+  });
+
+  dash.calc('sprint_progress', {
+    inputs: ['sprints', 'tasks'],
+    title: 'Tiến độ từng sprint',
+    description: 'Số task xong, đang làm và chưa làm trong mỗi sprint của roadmap.',
+    fn: (sprints, tasks) =>
+      sprints.map((s) => {
+        const mine = tasks.filter((t) => t.sprint === s.id);
+        const done = mine.filter((t) => t.state === 'done').length;
+        const partial = mine.filter((t) => t.state === 'partial').length;
+        return { id: s.id, label: 'S' + s.id, name: s.name, start: s.start, end: s.end, done, partial, todo: mine.length - done - partial, total: mine.length };
+      }),
+  });
+
+  dash.calc('current_sprint', {
+    inputs: ['sprints', 'tasks'],
+    title: 'Sprint hiện tại',
+    description: 'Sprint cao nhất đã có ít nhất một task xong hoặc đang làm.',
+    fn: (sprints, tasks) => {
+      const active = tasks.filter((t) => t.state !== 'todo').map((t) => t.sprint);
+      const id = active.length ? Math.max(...active) : 0;
+      const s = sprints.find((x) => x.id === id) || sprints[0];
+      const mine = tasks.filter((t) => t.sprint === s.id);
+      return [{ id: s.id, label: 'Sprint ' + s.id, name: s.name, start: s.start, end: s.end, total: mine.length }];
+    },
+  });
+
+  dash.calc('next_sprint', {
+    inputs: ['sprints', 'tasks'],
+    title: 'Sprint kế tiếp',
+    description: 'Sprint ngay sau sprint hiện tại, kèm số task và giờ ước lượng.',
+    fn: (sprints, tasks) => {
+      const active = tasks.filter((t) => t.state !== 'todo').map((t) => t.sprint);
+      const id = (active.length ? Math.max(...active) : 0) + 1;
+      const s = sprints.find((x) => x.id === id) || sprints[sprints.length - 1];
+      const mine = tasks.filter((t) => t.sprint === s.id);
+      return [{ id: s.id, label: 'Sprint ' + s.id, name: s.name, total: mine.length, hours: mine.reduce((a, t) => a + t.hours, 0) }];
+    },
+  });
+
+  dash.calc('current_tasks', {
+    inputs: ['tasks'],
+    title: 'Task của sprint hiện tại',
+    description: 'Mọi task thuộc sprint hiện tại, với trạng thái và nơi code đang nằm.',
+    fn: (tasks) => {
+      const active = tasks.filter((t) => t.state !== 'todo').map((t) => t.sprint);
+      const id = active.length ? Math.max(...active) : 0;
+      return tasks.filter((t) => t.sprint === id).map((t) => ({ id: t.id, title: t.title, status: t.status, landed: t.landed || '—' }));
+    },
+  });
+
+  dash.calc('next_tasks', {
+    inputs: ['tasks'],
+    title: 'Task của sprint kế tiếp',
+    description: 'Mọi task của sprint ngay sau sprint hiện tại, kèm giờ ước lượng.',
+    fn: (tasks) => {
+      const active = tasks.filter((t) => t.state !== 'todo').map((t) => t.sprint);
+      const id = (active.length ? Math.max(...active) : 0) + 1;
+      return tasks.filter((t) => t.sprint === id).map((t) => ({ id: t.id, title: t.title, hours: t.hours }));
+    },
+  });
+
+  dash.calc('active_tasks', {
+    inputs: ['tasks'],
+    title: 'Task đã và đang làm',
+    description: 'Các task có trạng thái Xong hoặc Đang làm, kèm bằng chứng.',
+    fn: (tasks) =>
+      tasks
+        .filter((t) => t.state !== 'todo')
+        .map((t) => ({ id: t.id, title: t.title, status: t.status, landed: t.landed || '—', evidence: t.evidence || '—' })),
+  });
+
+  // ---- vẽ ----
+  const fmtNum = (v) => (typeof v === 'number' ? v.toLocaleString('vi-VN', { maximumFractionDigits: 1 }) : v);
+  const fmtDate = (s) => d3.utcFormat('%d/%m/%Y')(new Date(s));
+  const fmtShort = (s) => d3.utcFormat('%d/%m')(new Date(s));
+  function fillMarks(root) {
+    root.querySelectorAll('[data-source][data-field]:not(table):not(th)').forEach((el) => {
+      const ids = el.dataset.source.split(' ');
+      const d = dash.data(ids[0]);
+      if (d.status !== 'ok') {
+        el.classList.toggle('dash-skeleton', d.status === 'loading');
+        return;
+      }
+      let row;
+      if (el.dataset.row !== undefined) row = d.data[Number(el.dataset.row)];
+      else if (el.dataset.where) {
+        const want = new URLSearchParams(el.dataset.where);
+        row = d.data.find((r) => [...want].every(([k, v]) => String(r[k]) === v));
+      }
+      if (!row) return;
+      let v = row[el.dataset.field];
+      if (el.dataset.source === 'kpi' && el.dataset.where === 'id=hours_share') v = d3.format('.0%')(v);
+      else if (el.dataset.field === 'start' || el.dataset.field === 'end') v = fmtShort(v);
+      else if (el.dataset.field === 'perf_ms_per_tick') v = String(v).replace('.', ',');
+      else v = fmtNum(v);
+      el.textContent = v;
+      el.classList.remove('dash-skeleton');
+    });
+  }
+
+  function fillTable(table) {
+    const d = dash.data(table.dataset.source);
+    const body = table.tBodies[0] || table.createTBody();
+    body.replaceChildren();
+    if (d.status !== 'ok') return;
+    const fields = [...table.querySelectorAll('th[data-field]')].map((th) => th.dataset.field);
+    const keys = table.dataset.rowKey.split(',');
+    for (const row of d.data) {
+      const tr = document.createElement('tr');
+      tr.dataset.key = keys.map((k) => encodeURIComponent(row[k])).join(',');
+      for (const f of fields) {
+        const td = document.createElement('td');
+        td.textContent = row[f] === '' || row[f] == null ? '—' : String(row[f]);
+        tr.append(td);
+      }
+      body.append(tr);
+    }
+  }
+
+  function drawSprints(el, rows) {
+    const width = Math.max(260, el.clientWidth || 320);
+    const rowH = 50;
+    const colors = dash.colors;
+    const active = rows.filter((r) => r.done + r.partial > 0).map((r) => r.id);
+    const current = active.length ? Math.max(...active) : -1;
+    d3.select(el).selectAll('svg').remove();
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${width} ${rows.length * rowH}`).attr('height', rows.length * rowH).attr('role', 'img').attr('aria-label', 'Tiến độ các sprint');
+    const rowsG = svg.selectAll('g').data(rows).join('g').attr('transform', (d, i) => `translate(0, ${i * rowH})`);
+    const style = (sel, size, color, weight) => sel.style('font-family', 'var(--font-anthropic-sans)').style('font-size', size + 'px').style('fill', color).style('font-weight', weight || 400);
+    const counts = rowsG.append('text').attr('x', width).attr('y', 14).attr('text-anchor', 'end').text((d) => `${d.done + d.partial}/${d.total}`);
+    style(counts, 12, 'var(--color-fg-muted)').style('font-variant-numeric', 'tabular-nums');
+    const reserve = Math.max(...counts.nodes().map((n) => n.getComputedTextLength())) + 12;
+    const titles = rowsG.append('text').attr('x', 0).attr('y', 14).text((d) => `${d.label} · ${d.name}`);
+    style(titles, 13, 'var(--color-fg)').style('font-weight', (d) => (d.id === current ? 600 : 400));
+    titles.each(function () {
+      let t = this.textContent;
+      while (this.getComputedTextLength() > width - reserve && t.length > 4) {
+        t = t.slice(0, -2);
+        this.textContent = t + '…';
+      }
+    });
+    rowsG.append('rect').attr('x', 0).attr('y', 22).attr('width', width).attr('height', 8).attr('rx', 4).style('fill', 'var(--cds-chart-muted)');
+    rowsG.append('rect').attr('x', 0).attr('y', 22).attr('height', 8).attr('rx', 4)
+      .attr('width', (d) => (d.total ? (width * d.done) / d.total : 0)).style('fill', colors[0]);
+    rowsG.append('rect').attr('y', 22).attr('height', 8).attr('rx', 4)
+      .attr('x', (d) => (d.total ? (width * d.done) / d.total : 0))
+      .attr('width', (d) => (d.total ? (width * d.partial) / d.total : 0)).style('fill', colors[2]);
+    const dates = rowsG.append('text').attr('x', 0).attr('y', 44).text((d) => `${fmtShort(d.start)} – ${fmtShort(d.end)}`);
+    style(dates, 11, 'var(--color-fg-muted)');
+  }
+
+  document.getElementById('lg-done').style.background = dash.colors[0];
+  document.getElementById('lg-partial').style.background = dash.colors[2];
+
+  dash.onData(() => {
+    const root = document.querySelector('.pg');
+    fillMarks(root);
+    root.querySelectorAll('table[data-source]').forEach(fillTable);
+    const sp = dash.data('sprint_progress');
+    const box = document.querySelector('.sprints');
+    if (sp.status === 'ok') drawSprints(box, sp.data);
+    else if (sp.status === 'error') {
+      box.replaceChildren();
+      const f = document.createElement('div');
+      f.className = 'fail';
+      f.textContent = 'Failed to load';
+      box.append(f);
+    }
+  });
+</script>
