@@ -14,7 +14,7 @@ extends Resource
 @export var armor: float = 0.0
 @export var attack: float = 0.0
 ## Khoảng cách giữa hai mép; từ 20 trở xuống là cận chiến.
-@export var range: float = 0.0
+@warning_ignore("shadowed_global_identifier") @export var range: float = 0.0
 @export var min_range: float = 0.0
 @export var reload_s: float = 0.0
 @export var accuracy: float = 1.0

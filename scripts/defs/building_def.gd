@@ -33,7 +33,7 @@ extends Resource
 ## Bộ binh của chủ đứng lên được (Lũy của Nguyễn).
 @export var walk_inf_owner: bool = false
 @export var attack: float = 0.0
-@export var range: float = 0.0
+@warning_ignore("shadowed_global_identifier") @export var range: float = 0.0
 @export var reload_s: float = 0.0
 @export var anti_capture_radius: int = 0
 
