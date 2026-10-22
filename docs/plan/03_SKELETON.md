@@ -59,6 +59,7 @@ Loan_12_Su_Quan/
 │   ├── defs/                     # UnitDef, BuildingDef, ResearchDef, FactionDef, ScenarioDef, …   S1.T03
 │   ├── sim/
 │   │   ├── economy/              # khai thác, mỏ, sản xuất, dân số, upkeep, đạn dược, thuế đinh   S4
+│   │   ├── map/                  # Terrain, GridData, MapGen (bản đồ Hai đàng) S2.T01–T02
 │   │   ├── territory/            # lãnh thổ, khẩn hoang                        S4.T06
 │   │   ├── combat/                                                             S5
 │   │   ├── pathing/              # A*, flow field, lớp đất/nước/theo phe       S2.T03–T04, S8.T01

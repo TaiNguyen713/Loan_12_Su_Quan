@@ -116,24 +116,29 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 |---|---|---|---|---|
 | S2.T01-TC1 | U | Map fixture | Hỏi `walk_land` / `walk_water` cho ô cầu | true / true |
 | S2.T01-TC2 | U | Ô biển sâu | Hỏi `walk_water` với thuyền nhỏ và với `large_ship` | Chỉ thuyền lớn đi được ở biển sâu (theo đánh dấu map) |
-| S2.T01-TC3 | U | Đổi tọa độ | world → cell → world cho 1000 điểm | Sai số < nửa ô |
+| S2.T01-TC3 | U | Phép chiếu `Iso` | sim → màn hình → sim cho 1000 điểm ngẫu nhiên | Sai số < 0.001 px |
+| S2.T01-TC4 | SC | `TerrainView` | Đặt TileMapLayer, so tâm ô với `Iso.to_screen` | Mọi ô có tile; tâm ô khớp ≤ 0.01 px; đổi địa hình của ô thì tile đổi theo |
 
 ### S2.T02 — Sinh bản đồ
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
 |---|---|---|---|---|
 | S2.T02-TC1 | U | Seed 7 | Sinh 2 lần | Giống hệt nhau |
-| S2.T02-TC2 | I | 100 seed | BFS đường bộ từ Phủ A tới Phủ B | Luôn có đường, đi qua cầu |
-| S2.T02-TC3 | I | 100 seed | Đếm mỏ đá/sắt/diêm và đất trống quanh mỗi bên | Chênh lệch ≤ 10% |
-| S2.T02-TC4 | I | Bản đồ "Ven biển" | BFS đường thủy từ bờ biển mỗi bên ra biển sâu | Có đường |
+| S2.T02-TC2 | I | 100 seed (bản đồ 64×48) | `generate_valid`, BFS 4 hướng từ Phủ Bắc tới Phủ Nam | Luôn có đường, đi qua cầu |
+| S2.T02-TC3 | I | 5 seed | So ô (x, y) với ô (W−1−x, H−1−y) | Giống hệt nhau (đối xứng tâm nên hai bên công bằng) |
+| S2.T02-TC4 | I | Bản đồ "Ven biển" | BFS đường thủy từ bờ biển mỗi bên ra biển sâu | Có đường *(chưa cài: bản đồ ven biển làm ở S13)* |
+| S2.T02-TC5 | U | Bản đồ 64×48 | Đếm ô cầu, mỏ, rừng, vùng quanh căn cứ | Có sông và cầu; mỗi loại mỏ đúng 16 ô; 3 cầu nhiều ô cầu hơn 2 cầu; bán kính 5 ô quanh Phủ toàn đất |
 
 ### S2.T03 — A* + flow field
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
 |---|---|---|---|---|
 | S2.T03-TC1 | U | Sông có 1 cầu | Tìm đường từ bờ Bắc sang bờ Nam | Đi qua cầu |
-| S2.T03-TC2 | U | Thuyền | Tìm đường tới một ô đất | Trả về ô nước gần nhất |
-| S2.T03-TC3 | U | Đích bị bao kín | Tìm đường | Đường một phần, phát `no_path` |
-| S2.T03-TC4 | P | 800 quân, 6 đích | Đo thời gian | < 6 ms/tick trên máy tầm trung |
-| S2.T03-TC5 | I | Cầu bị phá khi quân đang đi | Chạy | Quân repath trong ≤ 1 giây |
+| S2.T03-TC2 | U | Đích là ô rừng | Tìm đường tới ô đó | Đường kết thúc ở ô đi được cách đích ≤ 1 ô |
+| S2.T03-TC3 | U | Đích bị vòng rừng bao kín | Tìm đường | Đường một phần tới sát vòng rừng, không treo *(sự kiện `no_path` làm ở S3.T05)* |
+| S2.T03-TC4 | P | 800 quân theo flow field, bản đồ 128×96 | Đo thời gian 200 tick | < 6 ms/tick. Đo thực tế trên laptop Intel Iris Xe: 3.3 ms/tick; dựng một flow field ≈ 83 ms (một lần cho mỗi lệnh) |
+| S2.T03-TC5 | U | Cầu bị phá (đổi ô cầu thành sông) | Tìm đường lại; kiểm tra cache flow field | Đường mới không qua sông; cache flow field bị xóa |
+| S2.T03-TC6 | I | Quân đang đi thì cầu bị phá | Chạy | Quân repath trong ≤ 1 giây *(chưa cài)* |
+| S2.T03-TC7 | U | Thuyền (đường thủy) | Tìm đường trong sông | Mọi điểm đều là ô đi được bằng đường thủy |
+| S2.T03-TC8 | I | Nhóm 3 quân và nhóm 12 quân, lưới có sông và 1 cầu | Ra lệnh sang bờ Nam, chạy tới khi dừng | Nhóm 3 dùng A*, nhóm 12 dùng flow field; cả hai qua cầu, không quân nào đứng trên ô sông, tới đích |
 
 ### S2.T04 — Né tránh
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
@@ -147,15 +152,18 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 |---|---|---|---|---|
 | S2.T05-TC1 | SC | — | Kéo **2 ngón** 100 pt | Camera dịch 100 / zoom |
 | S2.T05-TC2 | SC | `one_finger_pan` tắt | Kéo **1 ngón** không giữ | Camera đứng yên |
-| S2.T05-TC3 | SC | — | Chụm 2 ngón từ 100 lên 200 pt | Zoom ×2 (bị kẹp trong giới hạn), tâm đứng yên |
+| S2.T05-TC3 | SC | Zoom 0.6 | Chụm 2 ngón từ 100 lên 200 pt | Zoom 1.2 (×2, bị kẹp trong [0.4, 1.8]), điểm dưới tâm hai ngón đứng yên |
 | S2.T05-TC4 | D | Máy có tai thỏ | Mở trận | Không control nào nằm trong vùng 44 pt trái/phải |
+| S2.T05-TC5 | SC | Bản đồ 128×96 | Kéo camera ra xa mọi phía | Khung nhìn không vượt biên bản đồ |
+| S2.T05-TC6 | U | Con trỏ lệch tâm | Zoom bằng lăn chuột hoặc `zoom_about` | Điểm thế giới dưới con trỏ đứng yên |
 
 ### S2.T06 — Minimap
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
 |---|---|---|---|---|
 | S2.T06-TC1 | SC | — | Đo kích thước và vị trí minimap | 120×120 pt, góc dưới trái |
 | S2.T06-TC2 | SC | — | Chạm giữa minimap | Camera tới giữa bản đồ |
-| S2.T06-TC3 | SC | — | Kéo trên minimap | Bản đồ chính không cuộn theo |
+| S2.T06-TC3 | SC | — | Nhấn rồi kéo trên minimap | Mỗi lần kéo phát `jump_requested`; nhả chuột thì dừng. Sự kiện được `accept_event()` nên bản đồ chính không nhận (kiểm tra tay) |
+| S2.T06-TC4 | SC | Minimap | Bấm ngoài vùng bản đồ; đổi toạ độ minimap ↔ sim | Điểm được kẹp vào mép bản đồ; chuyển đổi hai chiều sai số ≤ 0.01 |
 
 ---
 

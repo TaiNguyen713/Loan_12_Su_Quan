@@ -24,6 +24,26 @@ pip install -r tools/requirements.txt
 
 Mở `project.godot` bằng Godot 4.7.2 rồi nhấn F5.
 
+## Chơi thử trên PC (bản demo Sprint 2)
+
+```bash
+godot --path .          # hoặc mở project trong Godot rồi nhấn F5
+```
+
+Bản đồ "Hai đàng" 128×96 có sông, cầu, rừng và ba loại mỏ. 40 quân vàng ở phía Bắc, 20 quân đỏ đứng yên ở phía Nam.
+
+| Thao tác | Tác dụng |
+|---|---|
+| Chuột trái | Cả quân vàng đi tới điểm đó (qua cầu nếu cần) |
+| Chuột phải kéo, hoặc WASD / mũi tên | Cuộn bản đồ |
+| Lăn chuột | Zoom (0.4–1.8), giữ nguyên điểm dưới con trỏ |
+| Bấm hoặc kéo trên minimap | Nhảy camera tới đó |
+| Hai ngón kéo / chụm (màn cảm ứng) | Cuộn / zoom |
+| Esc | Thoát |
+
+Dòng chữ ở góc dưới trái cho biết FPS, tick, và cách tìm đường của lệnh gần nhất (A\* cho nhóm nhỏ hoặc đích gần, flow field cho nhóm từ 8 quân đi xa).
+Đây mới là demo: chưa chọn quân, chưa có né tránh giữa các quân, đồ họa là hình vẽ tạm.
+
 ## Các bản build
 
 Một project, ba preset trong `export_presets.cfg`; nội dung game giống hệt nhau, chỉ khác môi trường chạy:
