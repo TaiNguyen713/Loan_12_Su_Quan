@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  # Một nơi duy nhất khai báo phiên bản; version-guard đối chiếu với project.godot và image bên dưới.
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r tools/requirements.txt
+      - name: GDScript lint
+        run: gdlint scripts tests
+      - name: Python lint
+        run: ruff check tools
+      - name: Quy tắc phụ thuộc giữa các lớp
+        run: python tools/ci/check_layers.py scripts
+      - name: Version guard
+        run: python tools/ci/version_guard.py
+
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Kiểm tra dữ liệu cân bằng
+        run: python tools/data_validator/validate.py data/balance
+      - name: .tres khớp CSV
+        run: python tools/balance/csv_to_tres.py --check
+      - name: Test công cụ Python
+        run: |
+          pip install -r tools/requirements.txt
+          pytest -q tools/tests
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: GdUnit4
+        uses: MikeSchulze/gdUnit4-action@v1.3.2
+        with:
+          godot-version: ${{ env.GODOT_VERSION }}
+          paths: res://tests
+          report_name: gdunit4-report
+
+  build:
+    needs: [lint, data, test]
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Import project
+        run: godot --headless --import || true
+      - name: Export APK debug
+        run: |
+          mkdir -v -p build
+          godot --headless --export-debug "Android" build/game.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: game-debug-apk
+          path: build/game.apk
