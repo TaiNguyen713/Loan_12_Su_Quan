@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/defs/unit_def.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = &"ky_binh"
+name_key = "unit.ky_binh"
+faction = &""
+era = 1
+cost = PackedFloat32Array(70, 0, 0, 50, 10, 0)
+hp = 140.0
+armor = 3.0
+attack = 14.0
+range = 14.0
+min_range = 0.0
+reload_s = 1.2
+accuracy = 1.0
+projectile = &""
+splash_px = 0.0
+speed = 115.0
+sight = 260.0
+radius = 10.0
+pop = 1
+train_s = 18.0
+upkeep = PackedFloat32Array(0.4, 0, 0, 0, 0, 0)
+ammo = PackedFloat32Array(0, 0, 0, 0, 0, 0)
+tags = PackedStringArray("cavalry", "melee")
+bonus = {
+&"ranged": 1.5,
+&"siege": 1.5
+}
+rank = 2
+domain = &"LAND"
+capturable = false
+can_damage_military = false
+replaces = ""

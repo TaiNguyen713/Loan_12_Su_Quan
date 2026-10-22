@@ -34,6 +34,8 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 | S0.T04-TC2 | CI | Có 1 test fail | Push | Job test thất bại, có JUnit |
 | S0.T04-TC3 | CI | Code sạch | Push lên `main` | Có APK debug, cài được lên máy |
 | S0.T04-TC4 | CI | `GODOT_VERSION` khác `config/features` | Chạy CI | Job version-guard thất bại |
+| S0.T04-TC5 | CI | Code sạch | Push lên PR | Có artifact `game-windows` (.exe, bắt đầu bằng `MZ`) và `game-linux` (ELF) |
+| S0.T04-TC6 | D | Bản Windows từ CI | Chạy trên Windows | Mở được, chạy scene trận rỗng, chuột hoạt động như chạm |
 
 ### S0.T05 — Framework test & tương thích
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
@@ -86,7 +88,7 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
 |---|---|---|---|---|
 | S1.T04-TC1 | T | CSV hợp lệ | Chạy tool | Sinh `.tres`, Godot nạp được |
-| S1.T04-TC2 | T | Cơ súng có `era = 2` nhưng công trình luyện ra nó là Doanh trại GĐ I | Chạy validator | Báo lỗi luật 5 |
+| S1.T04-TC2 | T | Voi chiến `era = 1` nhưng Chuồng voi (luyện ra nó) `era = 2` | Chạy validator | Báo lỗi luật 5: đơn vị mở khóa trước công trình luyện ra nó |
 | S1.T04-TC3 | T | Đại bác thiếu `ammo` | Chạy validator | Báo lỗi luật 4 |
 | S1.T04-TC4 | T | Chạy tool 2 lần | So output | Giống hệt nhau |
 
@@ -102,6 +104,8 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 | S1.T06-TC1 | I | Seed 42, 200 lệnh, có giao dịch chợ | Chạy 2 lần × 6000 tick | Hash bằng nhau |
 | S1.T06-TC2 | I | Seed 42 rồi seed 43 | Chạy | Hash khác nhau |
 | S1.T06-TC3 | U | Hash | Đổi giá chợ 1 tài nguyên rồi tính hash | Hash đổi (giá chợ có trong hash) |
+| S1.T06-TC4 | U | CommandQueue | Đẩy lệnh ở tick 10; lấy lệnh đến hạn ở tick 10 rồi tick 11 | Tick 10 không có lệnh nào; tick 11 có đúng 1 lệnh |
+| S1.T06-TC5 | U | CommandQueue | Áp dụng 1 lệnh rồi dựng lại từ `history` | Lệnh dựng lại giống lệnh gốc (loại, đơn vị, đích, tick) |
 
 ---
 

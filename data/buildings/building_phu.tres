@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="BuildingDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/defs/building_def.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = &"phu"
+name_key = "building.phu"
+faction = &""
+era = 1
+cost = PackedFloat32Array(0, 0, 0, 0, 0, 0)
+growth = 1.0
+hp = 4000.0
+armor = 4.0
+size = Vector2i(4, 4)
+build_s = 0.0
+pop_bonus = 30
+military = false
+capturable = true
+max_count = 1
+coast_only = false
+slots = 0
+territory_radius = 20
+trains = PackedStringArray("dan")
+researches = PackedStringArray()
+dropoff = PackedStringArray("L", "G", "DA", "T", "S", "DI")
+wall = false
+gate = false
+walk_inf_owner = false
+attack = 10.0
+range = 220.0
+reload_s = 2.0
+anti_capture_radius = 0

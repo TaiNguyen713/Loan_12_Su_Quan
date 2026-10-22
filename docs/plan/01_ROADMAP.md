@@ -7,7 +7,7 @@
 
 ## 0. Giả định lập kế hoạch
 
-- **Phạm vi bản 1.0:** Trịnh + Nguyễn, giai đoạn I–II (1558–1672), nhiệm vụ chiến dịch 1–7, Đấu tự do 1–3 AI, Trận lịch sử, chỉ Android. Ba phe phụ, giai đoạn III, nhiều người chơi và bản PC nằm ở **Phase 6 (sau phát hành)**.
+- **Phạm vi bản 1.0:** Trịnh + Nguyễn, giai đoạn I–II (1558–1672), nhiệm vụ chiến dịch 1–7, Đấu tự do 1–3 AI, Trận lịch sử, trên Android và **bản desktop Windows/Linux cùng nội dung** (CI xuất cả hai, xem S0.T04). Ba phe phụ, giai đoạn III, nhiều người chơi và bản PC nằm ở **Phase 6 (sau phát hành)**.
 - **Nhịp làm việc:**
   - Sprint dài **2 tuần**. Nhóm gồm 2 lập trình viên, 1 họa sĩ bán thời gian, 1 người lo âm thanh và QA bán thời gian, 1 người thiết kế game kiêm PO. Chi tiết năng lực ở [04_ESTIMATES](04_ESTIMATES.md).
   - Bắt đầu **Thứ Hai 26/10/2026**, nghỉ Tết 01–12/02/2027.
@@ -29,7 +29,7 @@
 | **P3 – Nội dung & đồ họa** | S11–S17 | 12/04 – 16/07/2027 | Đồ họa, đủ quân 2 phe, thủy chiến, chế độ chơi, chiến dịch nhiệm vụ 1–7, thẩm định sử | **M3 – Đủ nội dung 1.0** |
 | **P4 – Hoàn thiện mobile** | S18–S20 | 19/07 – 27/08/2027 | 800 quân trên máy tầm trung, lưu game, đa ngôn ngữ, bản release | **M4 – Bản beta** |
 | **P5 – Beta & phát hành** | S21–S22 | 30/08 – 24/09/2027 | Closed beta, phát hành | **M5 – Ra mắt 1.0** |
-| P6 – Sau phát hành | — | từ 10/2027 | Giai đoạn III, 3 phe phụ, nhiều người chơi, bản PC | — |
+| P6 – Sau phát hành | — | từ 10/2027 | Giai đoạn III, 3 phe phụ, nhiều người chơi, tối ưu riêng cho PC | — |
 
 ## 2. Lịch Sprint
 
@@ -289,7 +289,7 @@
 | Phe Mạc | **Tra cứu sử trước** khi đặt bản đồ và chỉ số |
 | Hà Lan, Bồ Đào Nha chơi được | Phát triển từ NPC của bản 1.0 |
 | Nhiều người chơi 2–4 (điện thoại), 8 (PC) | Lockstep tất định, cần chuyển sim sang fixed-point |
-| Bản PC | HUD 1920×1080, phím tắt Cossacks 3, trần 3000 quân |
+| Tối ưu riêng cho PC (bản desktop cơ bản đã có từ 1.0) | HUD 1920×1080, phím tắt Cossacks 3, trần 3000 quân |
 
 ## 3. Rủi ro chính
 

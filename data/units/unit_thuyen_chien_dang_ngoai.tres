@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/defs/unit_def.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = &"thuyen_chien_dang_ngoai"
+name_key = "unit.thuyen_chien_dang_ngoai"
+faction = &"trinh"
+era = 1
+cost = PackedFloat32Array(0, 160, 0, 90, 25, 0)
+hp = 520.0
+armor = 4.0
+attack = 20.0
+range = 220.0
+min_range = 0.0
+reload_s = 3.0
+accuracy = 1.0
+projectile = &"ship_shot"
+splash_px = 0.0
+speed = 75.0
+sight = 300.0
+radius = 14.0
+pop = 3
+train_s = 28.0
+upkeep = PackedFloat32Array(0.3, 0, 0, 0, 0, 0)
+ammo = PackedFloat32Array(0, 0, 0, 0, 0.5, 1)
+tags = PackedStringArray("ship")
+bonus = {}
+rank = 6
+domain = &"WATER"
+capturable = false
+can_damage_military = true
+replaces = "thuyen_chien"

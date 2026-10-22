@@ -1,0 +1,6 @@
+#!/bin/sh
+# Kiểm tra định dạng commit (S0.T03). Bật bằng: git config core.hooksPath .githooks
+if command -v python >/dev/null 2>&1; then
+	exec python tools/ci/check_commit_msg.py "$1"
+fi
+exec python3 tools/ci/check_commit_msg.py "$1"

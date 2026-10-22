@@ -1,0 +1,25 @@
+# Godot
+.godot/
+*.translation
+
+# Build
+build/
+*.apk
+*.aab
+*.keystore
+*.jks
+export_credentials.cfg
+
+# Python
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.venv/
+
+# Editor
+.vscode/
+.idea/
+
+# Báo cáo GdUnit4
+reports/

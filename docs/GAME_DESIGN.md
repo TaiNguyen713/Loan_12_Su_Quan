@@ -16,7 +16,7 @@
 - **Tên tạm:** Nam Bắc Phân Tranh.
 - **Thể loại:** RTS. Xây kinh tế, rồi dồn sức vào các trận đánh đông quân, theo khung chơi của **Cossacks 3**.
 - **Bối cảnh:** Trịnh – Nguyễn phân tranh. Cả game trải từ 1558 tới 1777, chia 3 giai đoạn.
-- **Nền tảng:** **điện thoại trước** (Android, chơi màn hình ngang), PC sau.
+- **Nền tảng:** **điện thoại trước** (Android, chơi màn hình ngang). Có thêm **bản desktop (Windows, Linux) cùng nội dung**, build từ cùng một project; bản desktop dùng chuột thay cho cảm ứng (Godot giả lập chạm từ chuột).
 - **Thời lượng:** một ván thường 20–30 phút, có lưu và chơi tiếp.
 
 ### 1.1 Phạm vi bản 1.0 và sau phát hành
@@ -27,7 +27,7 @@
 | Phe chơi được | **Trịnh, Nguyễn** (đủ cây công nghệ) | Mạc (sau khi tra cứu sử), Hà Lan (VOC), Bồ Đào Nha |
 | Hà Lan, Bồ Đào Nha trong 1.0 | **NPC**: Thương điếm, thanh quan hệ, bán vũ khí, cho thuê tàu/thợ; tàu VOC là đối thủ hoặc đồng minh trong chiến dịch | Thành phe chơi được |
 | Chế độ chơi | Chiến dịch (nhiệm vụ 1–7), Đấu tự do với 1–3 AI, Trận lịch sử | Nhiều người chơi (2–4 trên điện thoại, 8 trên PC), nhiệm vụ 8 (1774–75), bản đồ Nam tiến |
-| Nền tảng | Android | Bản PC (HUD 1920×1080, phím tắt Cossacks 3, 3000 quân) |
+| Nền tảng | Android; **bản desktop Windows/Linux cùng nội dung** (chuột giả lập chạm, HUD và trần quân y như điện thoại) | Tối ưu riêng cho PC: HUD 1920×1080, phím tắt Cossacks 3, trần 3000 quân |
 
 ## 2. Nguyên tắc thiết kế
 
@@ -365,7 +365,7 @@ Theo Nam Bắc, có **khoảng 40 mục** cho bản điện thoại, xếp theo 
 | **Must** | Trịnh + Nguyễn; giai đoạn I–II; 6 tài nguyên; giá tăng dần; Chợ; Cảng và thuyền buôn; Thương điếm NPC và quan hệ phương Tây; lưỡng đầu chế; Lũy, khẩn hoang, Tào Ty; Đội 30/50 với 8 lệnh; chiếm đoạt có trễ 2 giây; cầu, bến phà, thủy chiến; sương mù; AI 3 mức với 1–3 đối thủ; Chiến dịch (nhiệm vụ 1–7), Đấu tự do, Trận lịch sử; lưu/tải; tiếng Việt và tiếng Anh; HUD 844×390 |
 | **Should** | Dịch bệnh (tùy chọn); bách khoa lịch sử; giọng nói tiếng Việt; chế độ tiết kiệm pin |
 | **Could** | Giới hạn 12 kho trên bản đồ Đàng Trong; Lũy cấp cao |
-| **Won't (1.0)** | Giai đoạn III và Nam tiến; Mạc, Hà Lan, Bồ Đào Nha chơi được; nhiều người chơi; bản PC; nhiệm vụ 8 |
+| **Won't (1.0)** | Giai đoạn III và Nam tiến; Mạc, Hà Lan, Bồ Đào Nha chơi được; nhiều người chơi; HUD, phím tắt và trần quân riêng cho PC; nhiệm vụ 8 |
 
 ## 17. Khoảng trống còn mở (theo Nam Bắc mục 10)
 

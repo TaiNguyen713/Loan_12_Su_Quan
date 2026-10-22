@@ -1,0 +1,136 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  # Một nơi duy nhất khai báo phiên bản; version-guard đối chiếu với project.godot và image bên dưới.
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r tools/requirements.txt
+      - name: GDScript lint
+        run: gdlint scripts tests
+      - name: Python lint
+        run: ruff check tools
+      - name: Quy tắc phụ thuộc giữa các lớp
+        run: python tools/ci/check_layers.py scripts
+      - name: Version guard
+        run: python tools/ci/version_guard.py
+
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Kiểm tra dữ liệu cân bằng
+        run: python tools/data_validator/validate.py data/balance
+      - name: .tres khớp CSV
+        run: python tools/balance/csv_to_tres.py --check
+      - name: Test công cụ Python
+        run: |
+          pip install -r tools/requirements.txt
+          pytest -q tools/tests
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: GdUnit4
+        uses: MikeSchulze/gdUnit4-action@v1.3.2
+        with:
+          godot-version: ${{ env.GODOT_VERSION }}
+          paths: res://tests
+
+  build:
+    needs: [lint, data, test]
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Export templates and Android editor settings
+        # Trong container $HOME khác /root, nên chuyển cấu hình Android (JDK, SDK, debug keystore) của image sang $HOME.
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/ ~/.config/
+          mv /root/.config/godot ~/.config/godot
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Import project
+        run: godot --headless --import || true
+      - name: Export APK debug
+        # Godot 4.7.2 headless đôi khi crash lúc thoát (dò thiết bị qua adb) sau khi APK đã được ký xong.
+        # Vì vậy kiểm tra chính file APK thay vì exit code của Godot.
+        run: |
+          mkdir -v -p build
+          godot --headless --export-debug "Android" build/game.apk || echo "godot exited with code $?"
+          test -s build/game.apk
+          # APK là file zip: phải bắt đầu bằng "PK"; nếu image có unzip thì kiểm tra thêm toàn bộ file
+          test "$(head -c 2 build/game.apk)" = "PK"
+          if command -v unzip >/dev/null 2>&1; then unzip -tq build/game.apk; fi
+          ls -l build/game.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: game-debug-apk
+          path: build/game.apk
+
+  build-desktop:
+    needs: [lint, data, test]
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+    strategy:
+      matrix:
+        include:
+          - preset: Windows Desktop
+            file: NamBacPhanTranh.exe
+            magic: "4d5a"
+            artifact: game-windows
+          - preset: Linux
+            file: NamBacPhanTranh.x86_64
+            magic: "7f454c46"
+            artifact: game-linux
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+      - name: Import project
+        run: godot --headless --import || true
+      - name: Export ${{ matrix.preset }}
+        # Giống bước APK: kiểm tra file xuất ra thay vì exit code của Godot.
+        run: |
+          mkdir -v -p build
+          godot --headless --export-release "${{ matrix.preset }}" "build/${{ matrix.file }}" || echo "godot exited with code $?"
+          test -s "build/${{ matrix.file }}"
+          # PE bắt đầu bằng "MZ" (4d5a), ELF bắt đầu bằng 7f 45 4c 46
+          actual=$(head -c 4 "build/${{ matrix.file }}" | od -An -tx1 | tr -d ' \n')
+          case "$actual" in "$EXPECTED"*) ;; *) echo "sai định dạng file: $actual"; exit 1 ;; esac
+          ls -l build
+        env:
+          EXPECTED: ${{ matrix.magic }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: build/${{ matrix.file }}
