@@ -5,6 +5,13 @@ RTS Android lối chơi Cossacks 3, bối cảnh Trịnh – Nguyễn phân tran
 - Thiết kế: [docs/GAME_DESIGN.md](docs/GAME_DESIGN.md)
 - Lộ trình, thuật toán, ước lượng, phiên bản công cụ: [docs/plan/](docs/plan/01_ROADMAP.md)
 - Test case: [docs/test/](docs/test/TEST_STRATEGY.md)
+- Cài môi trường trên máy mới: [docs/SETUP.md](docs/SETUP.md)
+
+## Tiến độ
+
+Đang ở Sprint 2 (bản đồ, tìm đường, camera, minimap, né tránh giữa các quân), xong chức năng nhưng chưa đạt mục tiêu hiệu năng của S2.T04:
+800 quân tốn 4,5 ms mỗi tick cho phần né tránh, mục tiêu 3 ms, sẽ port sang C++ ở S18.T02. Trạng thái từng task nằm trong
+[roadmap](docs/plan/01_ROADMAP.md); trang xem trên điện thoại sinh từ [tools/dashboard/](tools/dashboard/) (xem mục 6 của SETUP).
 
 ## Yêu cầu
 
@@ -42,7 +49,7 @@ Bản đồ "Hai đàng" 128×96 có sông, cầu, rừng và ba loại mỏ. 40
 | Esc | Thoát |
 
 Dòng chữ ở góc dưới trái cho biết FPS, tick, và cách tìm đường của lệnh gần nhất (A\* cho nhóm nhỏ hoặc đích gần, flow field cho nhóm từ 8 quân đi xa).
-Đây mới là demo: chưa chọn quân, chưa có né tránh giữa các quân, đồ họa là hình vẽ tạm.
+Đây mới là demo: chưa chọn quân, đồ họa là hình vẽ tạm. Quân đã biết né nhau và tìm đường lại khi kẹt (S2.T04); đám đông dừng lại có thể còn chồng lên nhau tới 40%.
 
 ## Các bản build
 
