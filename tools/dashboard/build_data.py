@@ -54,6 +54,7 @@ S = {
     "S2.T02": ("partial", "Bản đồ Hai đàng đối xứng, 100 seed đều nối được; chưa có ven biển, 1–4 người", "PR #2"),
     "S2.T03": ("partial", "A* và flow field xong, 800 quân 3,3 ms/tick; chưa repath khi cầu bị phá giữa đường", "PR #2"),
     "S2.T04": ("partial", "Né tránh và phát hiện kẹt xong, 200 quân qua cầu rộng 2 ô trong 44 giây; chưa đạt hiệu năng (4,5 ms so với 3 ms mỗi tick), chờ port C++ ở S18", "PR #3"),
+    "S3.T01": ("partial", "GestureRecognizer xong với 18 test (chạm, chạm đúp, khung chọn, chụm 2 ngón, HUD); chưa nối vào scene và chưa thử trên máy thật", "PR sắp mở"),
     "S2.T05": ("done", "Camera phím, kéo, lăn chuột, chụm 2 ngón, quán tính, kẹp biên (d0d6322)", "PR #2"),
     "S2.T06": ("done", "Minimap 120 pt, khung camera, chạm và kéo để nhảy (d0d6322)", "PR #2"),
 }
