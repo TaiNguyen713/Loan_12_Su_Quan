@@ -23,7 +23,8 @@ func test_commands_on_the_same_tick_keep_push_order() -> void:
 	queue.push(_command(&"b"), 0)
 	queue.push(_command(&"c"), 0)
 	var due := queue.pop_due(1)
-	assert_array(due.map(func(c: Command) -> StringName: return c.type)).is_equal([&"a", &"b", &"c"])
+	var types := due.map(func(c: Command) -> StringName: return c.type)
+	assert_array(types).is_equal([&"a", &"b", &"c"])
 
 
 func test_earlier_scheduled_tick_goes_first_even_if_pushed_later() -> void:

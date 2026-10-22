@@ -46,8 +46,8 @@ func test_restore_continues_the_same_sequence() -> void:
 		expected.append(rng.randi())
 
 	RngService.restore(saved)
-	var after: Array = []
+	var continued: Array = []
 	var restored := RngService.stream(&"mapgen")
 	for i in 5:
-		after.append(restored.randi())
-	assert_array(after).is_equal(expected)
+		continued.append(restored.randi())
+	assert_array(continued).is_equal(expected)

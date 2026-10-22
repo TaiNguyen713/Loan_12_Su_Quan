@@ -8,7 +8,8 @@ func _snapshot() -> Dictionary:
 		"rng": {"combat": 99, "ai_1": 7},
 		"teams": [{"res": [1000.0, 800.0, 500.0, 500.0, 200.0, 200.0]}],
 		"market": [1.0, 1.0, 1.2, 1.0, 2.0, 2.5],
-		"entities": [
+		"entities":
+		[
 			{"id": 1, "x": 10.0, "y": 20.0, "hp": 90.0, "state": 2, "team": 0},
 			{"id": 2, "x": 30.0, "y": 40.0, "hp": 60.0, "state": 0, "team": 1},
 		],

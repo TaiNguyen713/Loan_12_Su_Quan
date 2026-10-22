@@ -54,5 +54,5 @@ def test_every_exported_field_exists_in_gdscript_defs():
 
     for fields, script in ((UNIT_FIELDS, "unit_def.gd"), (BUILDING_FIELDS, "building_def.gd")):
         source = (REPO / "scripts" / "defs" / script).read_text(encoding="utf-8")
-        exported = set(re.findall(r"^@export var (\w+)", source, re.MULTILINE))
+        exported = set(re.findall(r"@export var (\w+)", source))
         assert {f.name for f in fields} == exported, script

@@ -31,6 +31,8 @@ gdscript/warnings/unused_signal=0
 
 window/size/viewport_width=1688
 window/size/viewport_height=780
+window/size/window_width_override=1280
+window/size/window_height_override=592
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
