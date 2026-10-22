@@ -24,6 +24,20 @@ pip install -r tools/requirements.txt
 
 Mở `project.godot` bằng Godot 4.7.2 rồi nhấn F5.
 
+## Các bản build
+
+Một project, ba preset trong `export_presets.cfg`; nội dung game giống hệt nhau, chỉ khác môi trường chạy:
+
+| Preset | Đầu ra | Ghi chú |
+|---|---|---|
+| Android | `build/game.apk` | Màn hình ngang, cảm ứng |
+| Windows Desktop | `build/NamBacPhanTranh.exe` | Một file (PCK nhúng sẵn); chuột giả lập chạm |
+| Linux | `build/NamBacPhanTranh.x86_64` | Như trên |
+
+CI xuất cả ba (artifact `game-debug-apk`, `game-windows`, `game-linux`). Xuất tại máy: cài export templates 4.7.2 trong
+Godot (Editor → Manage Export Templates), rồi `godot --headless --export-release "Windows Desktop" build/NamBacPhanTranh.exe`.
+HUD, phím tắt và trần quân riêng cho PC nằm ở phase sau phát hành.
+
 ## Dữ liệu cân bằng
 
 Số liệu quân và công trình nằm ở `data/balance/*.csv`. **Không sửa tay** các file `.tres`; sinh lại bằng:

@@ -34,6 +34,8 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 | S0.T04-TC2 | CI | Có 1 test fail | Push | Job test thất bại, có JUnit |
 | S0.T04-TC3 | CI | Code sạch | Push lên `main` | Có APK debug, cài được lên máy |
 | S0.T04-TC4 | CI | `GODOT_VERSION` khác `config/features` | Chạy CI | Job version-guard thất bại |
+| S0.T04-TC5 | CI | Code sạch | Push lên PR | Có artifact `game-windows` (.exe, bắt đầu bằng `MZ`) và `game-linux` (ELF) |
+| S0.T04-TC6 | D | Bản Windows từ CI | Chạy trên Windows | Mở được, chạy scene trận rỗng, chuột hoạt động như chạm |
 
 ### S0.T05 — Framework test & tương thích
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
