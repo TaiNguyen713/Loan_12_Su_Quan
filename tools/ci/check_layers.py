@@ -26,7 +26,7 @@ ALLOWED: dict[str, set[str]] = {
 }
 NO_DRAWING = {"defs", "core", "sim", "entities", "commands", "ai", "input", "campaign", "net"}
 
-CLASS_NAME = re.compile(r"^\s*class_name\s+(\w+)", re.M)
+CLASS_NAME = re.compile(r"^\s*class_name\s+(\w+)", re.MULTILINE)
 RES_PATH = re.compile(r"res://scripts/(\w+)/")
 STRING = re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'')
 DRAWING = re.compile(r"\bqueue_redraw\s*\(|\bdraw_\w+\s*\(|\bCanvasItem\b")

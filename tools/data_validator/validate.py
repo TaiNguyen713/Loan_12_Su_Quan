@@ -19,7 +19,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "balance"))
 
-from balance_schema import (  # noqa: E402
+from balance_schema import (
     AMMO_PROJECTILES,
     BUILDING_FIELDS,
     UNIT_FIELDS,

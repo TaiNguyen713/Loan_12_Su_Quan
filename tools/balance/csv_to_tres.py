@@ -13,8 +13,8 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "data_validator"))
 
-from balance_schema import BUILDING_FIELDS, UNIT_FIELDS, Field  # noqa: E402
-from validate import read_table, validate_dir  # noqa: E402
+from balance_schema import BUILDING_FIELDS, UNIT_FIELDS, Field
+from validate import read_table, validate_dir
 
 TARGETS = (
     # (csv, fields, script_class, script_path, output_dir, file_prefix)

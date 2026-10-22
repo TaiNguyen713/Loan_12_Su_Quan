@@ -8,7 +8,7 @@ from pathlib import Path
 WORKFLOW_GODOT = re.compile(r"GODOT_VERSION:\s*[\"']?(\d+\.\d+(?:\.\d+)?)[\"']?")
 WORKFLOW_IMAGE = re.compile(r"barichello/godot-ci:(\d+\.\d+(?:\.\d+)?)")
 PROJECT_FEATURES = re.compile(r"config/features=PackedStringArray\(\s*\"(\d+\.\d+)\"")
-PLUGIN_VERSION = re.compile(r'^version="([^"]+)"', re.M)
+PLUGIN_VERSION = re.compile(r'^version="([^"]+)"', re.MULTILINE)
 
 
 def check(root: Path) -> list[str]:
