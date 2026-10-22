@@ -34,7 +34,7 @@ Mẫu MADR: `Bối cảnh · Yếu tố quyết định · ≥ 2 phương án ·
 ### S0.T03 — Chuẩn hóa repo *(quy trình)*
 - Git LFS cho `*.png *.jpg *.psd *.kra *.blend *.wav *.ogg *.ttf *.otf *.glb`.
 - `.gitignore`: `.godot/ build/ *.apk *.aab *.keystore *.jks __pycache__/`.
-- Hook `commit-msg` kiểm tra regex `^(feat|fix|docs|test|refactor|perf|chore|ci)(\(.+\))?: .+ \(S\d{2}\.T\d{2}\)$`. Riêng `docs` và `chore` thì mã task là tùy chọn.
+- Hook `commit-msg` (thư mục `.githooks/`, bật bằng `git config core.hooksPath .githooks`, không cần cài thêm gì) kiểm tra regex `^(feat|fix|docs|test|refactor|perf|chore|ci)(\(.+\))?: .+ \(S\d{1,2}\.T\d{2}\)$`. Mã task theo đúng ID trong roadmap (`S0.T04`, `S12.T01`). Riêng `docs` và `chore` thì mã task là tùy chọn.
 - Template PR có các mục: Task ID · Mô tả · Test case đã chạy · Ảnh UI.
 - Branch protection cho `main`: bắt buộc CI xanh và 1 người review.
 
