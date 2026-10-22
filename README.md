@@ -41,8 +41,12 @@ python tools/ci/check_layers.py       # quy tắc phụ thuộc giữa các lớ
 python tools/ci/version_guard.py      # phiên bản Godot khớp nhau
 ```
 
-Test GDScript (GdUnit4) nằm ở `tests/`; chạy trong editor hoặc qua CI. GdUnit4 6.2.2 cần được cài vào
-`addons/gdUnit4/` (xem [addons/README.md](addons/README.md)).
+Test GDScript (GdUnit4 6.2.2, đã có trong `addons/`) nằm ở `tests/`. Chạy toàn bộ, không cần mở editor:
+
+```bash
+godot --headless --path . --import          # lần đầu
+godot --headless --path . -s -d res://addons/gdUnit4/bin/GdUnitCmdTool.gd --add res://tests --ignoreHeadlessMode
+```
 
 ## Quy ước commit
 
