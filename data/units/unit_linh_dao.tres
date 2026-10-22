@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/defs/unit_def.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = &"linh_dao"
+name_key = "unit.linh_dao"
+faction = &""
+era = 1
+cost = PackedFloat32Array(30, 0, 0, 15, 0, 0)
+hp = 70.0
+armor = 1.0
+attack = 10.0
+range = 12.0
+min_range = 0.0
+reload_s = 0.8
+accuracy = 1.0
+projectile = &""
+splash_px = 0.0
+speed = 80.0
+sight = 220.0
+radius = 8.0
+pop = 1
+train_s = 9.0
+upkeep = PackedFloat32Array(0.2, 0, 0, 0, 0, 0)
+ammo = PackedFloat32Array(0, 0, 0, 0, 0, 0)
+tags = PackedStringArray("infantry", "melee")
+bonus = {
+&"ranged": 1.5
+}
+rank = 1
+domain = &"LAND"
+capturable = false
+can_damage_military = false
+replaces = ""

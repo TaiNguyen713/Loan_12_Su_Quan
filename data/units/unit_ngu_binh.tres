@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/defs/unit_def.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = &"ngu_binh"
+name_key = "unit.ngu_binh"
+faction = &"nguyen"
+era = 1
+cost = PackedFloat32Array(0, 60, 0, 30, 0, 0)
+hp = 150.0
+armor = 1.0
+attack = 10.0
+range = 160.0
+min_range = 0.0
+reload_s = 2.0
+accuracy = 1.0
+projectile = &"ship_shot"
+splash_px = 0.0
+speed = 120.0
+sight = 260.0
+radius = 8.0
+pop = 1
+train_s = 12.0
+upkeep = PackedFloat32Array(0.1, 0, 0, 0, 0, 0)
+ammo = PackedFloat32Array(0, 0, 0, 0, 0.05, 0.1)
+tags = PackedStringArray("ship", "small_ship")
+bonus = {
+&"large_ship": 2.0
+}
+rank = 6
+domain = &"WATER"
+capturable = false
+can_damage_military = true
+replaces = ""

@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="UnitDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/defs/unit_def.gd" id="1_def"]
+
+[resource]
+script = ExtResource("1_def")
+id = &"tho_binh"
+name_key = "unit.tho_binh"
+faction = &"nguyen"
+era = 1
+cost = PackedFloat32Array(25, 10, 0, 0, 0, 0)
+hp = 70.0
+armor = 1.0
+attack = 7.0
+range = 14.0
+min_range = 0.0
+reload_s = 1.0
+accuracy = 1.0
+projectile = &""
+splash_px = 0.0
+speed = 66.0
+sight = 220.0
+radius = 8.0
+pop = 1
+train_s = 6.0
+upkeep = PackedFloat32Array(0.2, 0, 0, 0, 0, 0)
+ammo = PackedFloat32Array(0, 0, 0, 0, 0, 0)
+tags = PackedStringArray("infantry", "melee", "local")
+bonus = {}
+rank = 0
+domain = &"LAND"
+capturable = false
+can_damage_military = false
+replaces = ""
