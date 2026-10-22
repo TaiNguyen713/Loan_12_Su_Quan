@@ -1,7 +1,7 @@
 class_name MoveSystem
 extends RefCounted
 ## Di chuyển đơn vị theo đường A* hoặc theo flow field mỗi tick (S2.T03).
-## Chưa có né tránh giữa các quân (S2.T04).
+## Né tránh giữa các quân nằm ở Avoidance, phát hiện kẹt ở StuckWatch.
 
 ## Cách đích bao nhiêu ô (Chebyshev) thì thôi theo flow field, đi thẳng tới chỗ đứng riêng.
 const FLOW_FINAL_APPROACH_CELLS: int = 2
@@ -32,6 +32,7 @@ static func _follow_path(unit: Unit, grid: GridData, travel: float) -> void:
 		if last:
 			unit.position = target
 			unit.stop()
+			unit.arrived = true
 		else:
 			unit.path_index += 1
 		return
@@ -53,6 +54,7 @@ static func _follow_flow(unit: Unit, grid: GridData, travel: float) -> void:
 		if to_destination <= maxf(travel, 1.0):
 			unit.position = unit.destination
 			unit.stop()
+			unit.arrived = true
 			return
 		_move_toward(unit, grid, unit.destination, travel)
 		return
