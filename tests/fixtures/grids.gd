@@ -20,3 +20,15 @@ static func wall_in(grid: GridData, center: Vector2i) -> void:
 		for dx in range(-1, 2):
 			if dx != 0 or dy != 0:
 				grid.set_terrain(center + Vector2i(dx, dy), Terrain.T.FOREST)
+
+
+## 48×40: sông ở hai hàng 19–20, một cầu rộng 2 ô ở cột 23–24. Dùng cho test đám đông.
+static func wide_river_with_bridge() -> GridData:
+	var grid := GridData.new(48, 40)
+	for x in 48:
+		grid.set_terrain(Vector2i(x, 19), Terrain.T.RIVER)
+		grid.set_terrain(Vector2i(x, 20), Terrain.T.RIVER)
+	for x in [23, 24]:
+		grid.set_terrain(Vector2i(x, 19), Terrain.T.BRIDGE)
+		grid.set_terrain(Vector2i(x, 20), Terrain.T.BRIDGE)
+	return grid

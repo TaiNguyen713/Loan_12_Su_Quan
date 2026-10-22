@@ -71,6 +71,8 @@ func step() -> Array[Command]:
 	for cmd in applied:
 		_apply(cmd)
 	MoveSystem.step(units, grid, SimClock.DT)
+	Avoidance.step(units, grid, SimClock.DT)
+	StuckWatch.step(units, pathfinder, SimClock.DT, clock.tick)
 	return applied
 
 
