@@ -20,3 +20,6 @@ __pycache__/
 # Editor
 .vscode/
 .idea/
+
+# Báo cáo GdUnit4
+reports/
