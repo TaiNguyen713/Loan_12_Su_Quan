@@ -77,9 +77,13 @@ jobs:
       - name: Import project
         run: godot --headless --import || true
       - name: Export APK debug
+        # Godot 4.7.2 headless đôi khi crash lúc thoát (dò thiết bị qua adb) sau khi APK đã được ký xong.
+        # Vì vậy kiểm tra chính file APK thay vì exit code của Godot.
         run: |
           mkdir -v -p build
-          godot --headless --export-debug "Android" build/game.apk
+          godot --headless --export-debug "Android" build/game.apk || echo "godot exited with code $?"
+          test -s build/game.apk
+          python3 -c "import zipfile; z = zipfile.ZipFile('build/game.apk'); assert z.testzip() is None; assert 'AndroidManifest.xml' in z.namelist(); print('APK hợp lệ:', len(z.namelist()), 'file')"
       - uses: actions/upload-artifact@v4
         with:
           name: game-debug-apk
