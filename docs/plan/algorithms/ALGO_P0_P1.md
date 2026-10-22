@@ -192,13 +192,13 @@ Với 3–4 người chơi: thêm sông nhánh theo chiều dọc và đặt xu�
 - **Edge case:** đích bị chặn → ô đi được gần nhất (tìm xoáy ốc, tối đa 12 ô). Đích ở bờ bên kia mà không có đường bộ → trả về đường một phần và phát `alert_raised("no_path")`. Có nhà chặn đường đang đi → repath ở tick kế tiếp.
 
 ### S2.T04 — Né tránh cục bộ
-- Spatial hash ô 64 px, xây lại mỗi tick.
+- Spatial hash ô **32 px** (lớn hơn khoảng cách chạm của mọi quân bộ, nên chỉ cần xét 3×3 ô), xây lại mỗi tick. Mỗi cặp chỉ tính một lần rồi đẩy cả hai quân.
 - Lực đẩy: `push += d/|d| × (min_d − |d|) × mass_o / (mass_u + mass_o)`, với `min_d = 0.9 × (r_u + r_o)`.
 - Mass: bộ binh 1, kỵ binh 2, voi/pháo 4.
-- Quân đã tới đích (`arrived`) có mass ×4.
+- Quân đã tới đích (`arrived`) có mass ×4. Hai quân đều đã tới đích chỉ đẩy nhau khi gần hơn **0.6 ×** khoảng cách chạm (không đẩy hoàn toàn bỏ qua, vì như vậy chúng có thể chồng khít nhau mãi).
 - **Ở cầu (ô `bridge`):** tắt lực đẩy ngang, chỉ giữ đẩy theo phương dọc cầu (mô phỏng đi thành hàng).
-- **Kẹt:** dịch chuyển < 2 px trong 2 giây → repath; 3 lần liên tiếp → về Idle.
-- **Ngân sách:** < 3 ms/tick cho 800 quân trên máy tầm trung (port C++ ở S18 nếu không đạt).
+- **Kẹt (`StuckWatch`):** đang đi mà trong 2 giây dịch chuyển < 2 px → repath (chuyển sang A* riêng của quân đó); 3 lần liên tiếp → về Idle. Mỗi quân chỉ được xét 1 lần trong 5 tick (so le theo id), thời gian cộng dồn 0.25 s mỗi lần.
+- **Ngân sách:** < 3 ms/tick cho 800 quân trên máy tầm trung. Bản GDScript đo được 4.5 ms (800 quân đi rải) và 21 ms (800 quân dồn trong vùng 240×120 px) trên laptop Intel Iris Xe, nên **chưa đạt**; port C++ ở S18.T02.
 
 ### S2.T05 — Camera
 ```

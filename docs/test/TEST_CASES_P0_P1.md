@@ -143,9 +143,14 @@ Quy ước: [TEST_STRATEGY.md](TEST_STRATEGY.md). Kích thước UI tính bằng
 ### S2.T04 — Né tránh
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
 |---|---|---|---|---|
-| S2.T04-TC1 | I | 200 quân qua cầu rộng 2 ô | Lệnh sang bờ kia | 100% qua được trong ≤ 120 giây, không quân nào kẹt |
-| S2.T04-TC2 | I | 50 quân sinh cùng 1 điểm | Chạy 60 tick | Không chồng nhau quá 10% |
-| S2.T04-TC3 | P | 800 quân | Đo thời gian avoidance | < 3 ms/tick |
+| S2.T04-TC1 | I | 200 quân, bản đồ 48×40 có 1 cầu rộng 2 ô | Lệnh sang bờ kia, chạy tới khi tất cả tới đích | 100% tới đích trong ≤ 120 giây (đo: 44 giây), không quân nào đứng trên ô sông, không quân nào bỏ cuộc vì kẹt |
+| S2.T04-TC2 | U | 50 quân sinh cùng 1 điểm, chưa có lệnh | Chạy 60 tick | Mọi cặp cách nhau ≥ 0.9 × khoảng cách chạm |
+| S2.T04-TC3 | P | 800 quân đang đi theo flow field | Đo `Avoidance.step` | < 3 ms/tick. **Chưa đạt ở bản GDScript**: 4.5 ms (đi rải), 21 ms (dồn chặt); chờ port C++ ở S18.T02. `StuckWatch` 0.37 ms |
+| S2.T04-TC4 | U | Hai quân chồng ngang nhau trên ô cầu | `Avoidance.step` | Tọa độ x không đổi; chồng theo trục y thì vẫn bị đẩy dọc theo cầu |
+| S2.T04-TC5 | U | Quân nặng (mass 4) và quân nhẹ (mass 1) chồng nhau | `Avoidance.step` | Quân nhẹ bị đẩy xa gấp 4 lần |
+| S2.T04-TC6 | U | Hai quân đã tới đích chạm nhau / chồng nặng | `Avoidance.step` | Chạm nhẹ: đứng yên; chồng nặng: vẫn tách ra tới 0.6 × khoảng cách chạm |
+| S2.T04-TC7 | U | Quân đứng sát tường rừng, bị đẩy về phía tường | Chạy 20 tick | Không bao giờ bị đẩy vào ô không đi được |
+| S2.T04-TC8 | U | Quân đang đi nhưng đứng yên | `StuckWatch` 2 giây / 3 lần | Sau 2 giây repath lần 1; sau 3 lần repath mà vẫn kẹt thì về Idle; có tiến triển thì đếm lại từ 0; quân đi theo flow chuyển sang A* khi repath; đích không tới được thì dừng ngay |
 
 ### S2.T05 — Camera
 | ID | Loại | Tiền điều kiện | Bước | Kết quả mong đợi |
