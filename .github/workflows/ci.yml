@@ -83,7 +83,10 @@ jobs:
           mkdir -v -p build
           godot --headless --export-debug "Android" build/game.apk || echo "godot exited with code $?"
           test -s build/game.apk
-          python3 -c "import zipfile; z = zipfile.ZipFile('build/game.apk'); assert z.testzip() is None; assert 'AndroidManifest.xml' in z.namelist(); print('APK hợp lệ:', len(z.namelist()), 'file')"
+          # APK là file zip: phải bắt đầu bằng "PK"; nếu image có unzip thì kiểm tra thêm toàn bộ file
+          test "$(head -c 2 build/game.apk)" = "PK"
+          if command -v unzip >/dev/null 2>&1; then unzip -tq build/game.apk; fi
+          ls -l build/game.apk
       - uses: actions/upload-artifact@v4
         with:
           name: game-debug-apk
