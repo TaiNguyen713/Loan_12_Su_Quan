@@ -15,7 +15,7 @@ func test_same_seed_gives_same_sequence() -> void:
 	assert_array(_draw_numbers(42, &"combat", 20)).is_equal(_draw_numbers(42, &"combat", 20))
 
 
-func test_S1_T06_TC2_different_seed_gives_different_sequence() -> void:
+func test_s1_t06_tc2_different_seed_gives_different_sequence() -> void:
 	assert_array(_draw_numbers(42, &"combat", 20)).is_not_equal(_draw_numbers(43, &"combat", 20))
 
 

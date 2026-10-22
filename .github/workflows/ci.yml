@@ -45,6 +45,10 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,7 +58,6 @@ jobs:
         with:
           godot-version: ${{ env.GODOT_VERSION }}
           paths: res://tests
-          report_name: gdunit4-report
 
   build:
     needs: [lint, data, test]

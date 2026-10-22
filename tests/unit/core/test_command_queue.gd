@@ -9,7 +9,7 @@ func _command(type: StringName, tick: int = 0) -> Command:
 	return cmd
 
 
-func test_S1_T06_TC4_command_pushed_at_tick_10_is_applied_at_tick_11() -> void:
+func test_s1_t06_tc4_command_pushed_at_tick_10_is_applied_at_tick_11() -> void:
 	var queue := CommandQueue.new()
 	queue.push(_command(&"move"), 10)
 	assert_int(queue.pop_due(10).size()).is_equal(0)
@@ -30,7 +30,8 @@ func test_earlier_scheduled_tick_goes_first_even_if_pushed_later() -> void:
 	var queue := CommandQueue.new()
 	queue.push(_command(&"late", 50), 0)
 	queue.push(_command(&"early", 5), 0)
-	assert_array(queue.pop_due(50).map(func(c: Command) -> StringName: return c.type)).is_equal([&"early", &"late"])
+	var types := queue.pop_due(50).map(func(c: Command) -> StringName: return c.type)
+	assert_array(types).is_equal([&"early", &"late"])
 
 
 func test_history_records_applied_commands_for_replay() -> void:

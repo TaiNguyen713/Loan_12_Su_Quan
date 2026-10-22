@@ -10,7 +10,7 @@ func _load_dir(dir: String) -> Array[Resource]:
 	return result
 
 
-func test_S1_T03_TC1_every_unit_loads_with_six_resource_slots() -> void:
+func test_s1_t03_tc1_every_unit_loads_with_six_resource_slots() -> void:
 	var units := _load_dir("res://data/units")
 	assert_int(units.size()).is_equal(18)
 	for res in units:
@@ -32,7 +32,7 @@ func test_every_building_loads() -> void:
 		assert_bool(building.size.x >= 1 and building.size.y >= 1).is_true()
 
 
-func test_S1_T03_TC4_house_growth_is_1_05() -> void:
+func test_s1_t03_tc4_house_growth_is_1_05() -> void:
 	var house := load("res://data/buildings/building_nha.tres") as BuildingDef
 	assert_float(house.growth).is_equal_approx(1.05, 0.0001)
 
@@ -47,7 +47,7 @@ func test_spearman_values_match_the_balance_table() -> void:
 	assert_float(spear.cost[1]).is_equal(10.0)
 
 
-func test_S4_T02_TC1_third_barracks_price() -> void:
+func test_s4_t02_tc1_third_barracks_price() -> void:
 	var barracks := load("res://data/buildings/building_doanh_trai.tres") as BuildingDef
 	var price := barracks.cost_for_count(2)
 	assert_float(price[1]).is_equal(365.0)  # gỗ: 200 × 1.35²

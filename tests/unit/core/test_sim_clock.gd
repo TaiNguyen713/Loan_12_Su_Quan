@@ -22,4 +22,5 @@ func test_advance_counts_ticks() -> void:
 
 
 func test_project_runs_the_sim_at_20_hz() -> void:
-	assert_int(ProjectSettings.get_setting("physics/common/physics_ticks_per_second")).is_equal(SimClock.TICKS_PER_SECOND)
+	var ticks: int = ProjectSettings.get_setting("physics/common/physics_ticks_per_second")
+	assert_int(ticks).is_equal(SimClock.TICKS_PER_SECOND)

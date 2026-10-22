@@ -20,7 +20,7 @@
 
 ## 2. Quy ước
 
-- **Mã test case:** `<TaskID>-TC<n>`, ví dụ `S03.T02-TC4`. Tên hàm test GdUnit4 bắt đầu bằng mã này để truy vết, ví dụ `func test_S03_T02_TC4_double_tap_selects_same_type()`.
+- **Mã test case:** `<TaskID>-TC<n>`, ví dụ `S03.T02-TC4`. Tên hàm test GdUnit4 bắt đầu bằng mã này để truy vết, ví dụ `func test_s3_t02_tc4_double_tap_selects_same_type()`.
 - **Vị trí file test:** `tests/<loại>/` đặt song song với `scripts/`, ví dụ `scripts/sim/combat/damage.gd` → `tests/unit/sim/combat/test_damage.gd`.
 - **Fixture:** bản đồ nhỏ 32×32 và dữ liệu rút gọn đặt trong `tests/fixtures/`. Test **không** đọc dữ liệu cân bằng thật, trừ test có ghi rõ "dữ liệu thật".
 - **Tất định:** mọi test I/SC/AI đều cố định seed RNG. Test không được phụ thuộc thời gian thực: dùng `SimHarness.step(n_ticks)` thay cho `await get_tree().create_timer()`.

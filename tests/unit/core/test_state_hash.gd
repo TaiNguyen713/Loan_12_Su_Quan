@@ -37,7 +37,7 @@ func test_entity_order_and_rng_key_order_do_not_matter() -> void:
 	assert_int(StateHash.compute(shuffled)).is_equal(StateHash.compute(_snapshot()))
 
 
-func test_S1_T06_TC3_market_price_is_part_of_the_hash() -> void:
+func test_s1_t06_tc3_market_price_is_part_of_the_hash() -> void:
 	var changed := _snapshot()
 	changed["market"][4] = 2.06
 	assert_int(StateHash.compute(changed)).is_not_equal(StateHash.compute(_snapshot()))

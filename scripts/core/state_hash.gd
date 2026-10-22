@@ -56,7 +56,9 @@ static func compute(snapshot: Dictionary) -> int:
 		h = add_float(h, float(price))
 
 	var entities: Array = snapshot.get("entities", []).duplicate()
-	entities.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["id"]) < int(b["id"]))
+	entities.sort_custom(
+		func(a: Dictionary, b: Dictionary) -> bool: return int(a["id"]) < int(b["id"])
+	)
 	for entity in entities:
 		h = add_int(h, int(entity["id"]))
 		h = add_float(h, float(entity.get("x", 0.0)))
